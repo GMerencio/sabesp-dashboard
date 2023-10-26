@@ -38,14 +38,27 @@ def renderizar_dados(df, sistema):
    	format="DD.MM.YYYY",
 	)
 	
-	coluna = st.selectbox(
-		'Selecione qual dado quer visualizar',
-  	df.columns[1:]
+	colunas = df.columns[1:].to_list()
+	
+	coluna1 = st.selectbox(
+		'Selecione qual dado quer visualizar no primeiro gráfico',
+  	colunas
+	)
+	
+	coluna2 = st.selectbox(
+		'Selecione qual dado quer visualizar no segundo gráfico',
+  	colunas,
+  	index=colunas.index('Chuva (mm)')
 	)
 	
 	df = df[(df['Data'] >= inicio_consulta) & (df['Data'] <= final_consulta)]
 	
-	st.plotly_chart(plot_df(df, ylabel=coluna), use_container_width=True)
+	col1, col2 = st.columns(2)
+	
+	with col1:
+		st.plotly_chart(plot_df(df, ylabel=coluna1), use_container_width=True)
+	with col2:
+		st.plotly_chart(plot_df(df, ylabel=coluna2), use_container_width=True)
 	
 	st.write(df)
 	

@@ -16,14 +16,15 @@ def plot_df(df, ylabel='Volume (hm³)'):
 	btn_color = 'white'
 	hover_bg_color = 'white'
 	
+	data_inicio = df.iloc[0]['Data']
+	data_final = df.iloc[-1]['Data']
+	
 	data = []
 	
 	if ylabel == 'Chuva (mm)':
 		df_mes = df.copy()
 		df_mes = df_mes[['Data', 'Chuva (mm)']]
 		
-		data_inicio = df.iloc[0]['Data']
-		data_final = df.iloc[-1]['Data']
 		dif_segundos = (data_final - data_inicio).total_seconds()
 		dif_anos = divmod(dif_segundos, 31536000)[0]
 		
@@ -47,8 +48,58 @@ def plot_df(df, ylabel='Volume (hm³)'):
   		mode='markers',
   		xhoverformat='%d/%m/%Y'
 		))
-		
-	layout = dict(
+	
+	titulo = f'{ylabel} de {data_inicio.strftime("%d/%m/%y")} a {data_final.strftime("%d/%m/%y")}'
+	if ylabel == 'Chuva (mm)':
+		layout = dict(
+					title=titulo,
+      		showlegend=False,
+      		width=figsize[0],
+      		height=figsize[1],
+      		plot_bgcolor=bg_color,
+      		paper_bgcolor=bg_color,
+      		font=dict(
+        			color=txt_color,
+        			size=15
+      		),
+      		hoverlabel=dict(
+        			bgcolor=hover_bg_color,
+        			font=dict(
+        					color=txt_color
+        			)
+      		),
+      		yaxis=dict(
+          	title=dict(
+            		text=ylabel,
+            		font=dict(
+            				color=txt_color,
+            				size=15
+            		)
+          	),
+          	tickfont=dict(
+            		color=txt_color,
+            		size=15
+          	),
+          	gridcolor=grid_color
+      	),
+      	xaxis=dict(
+          	title=dict(
+            		text=xlabel,
+            		font=dict(
+            				color=txt_color,
+            				size=15
+            		)
+          	),
+          	tickfont=dict(
+            		color=txt_color,
+            		size=15
+          	),
+      	),
+  		)
+	
+	else:
+		layout = dict(
+				title=titulo,
       	showlegend=False,
       	width=figsize[0],
       	height=figsize[1],
@@ -98,5 +149,5 @@ def plot_df(df, ylabel='Volume (hm³)'):
       	),
   	)
     
-	fig = go.Figure(data=data, layout=None)
+	fig = go.Figure(data=data, layout=layout)
 	return fig
