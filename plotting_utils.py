@@ -17,17 +17,37 @@ def plot_df(df, ylabel='Volume (hm³)'):
 	hover_bg_color = 'white'
 	
 	data = []
-  	
-	# Add actual
-	data.append(go.Scattergl(
-  	name='Observado',
-  	x=df['Data'],
-  	y=df[ylabel],
-  	marker=dict(color=actual_color, size=marker_size),
-  	mode='markers',
-  	xhoverformat='%d/%m/%Y'
-	))
 	
+	if ylabel == 'Chuva (mm)':
+		df_mes = df.copy()
+		df_mes = df_mes[['Data', 'Chuva (mm)']]
+		
+		data_inicio = df.iloc[0]['Data']
+		data_final = df.iloc[-1]['Data']
+		dif_segundos = (data_final - data_inicio).total_seconds()
+		dif_anos = divmod(dif_segundos, 31536000)[0]
+		
+		if dif_anos >= 10:
+			df_mes['Data'] = pd.to_datetime(df_mes['Data']).dt.strftime('%Y')
+		else:
+			df_mes['Data'] = pd.to_datetime(df_mes['Data']).dt.strftime('%m/%y')
+		
+		gp_mes = df_mes.groupby(['Data'], sort=False).sum().reset_index()
+		
+		data.append(go.Bar(
+  		x=gp_mes['Data'],
+  		y=gp_mes[ylabel]
+		))
+	else:
+		data.append(go.Scattergl(
+  		name='Observado',
+  		x=df['Data'],
+  		y=df[ylabel],
+  		marker=dict(color=actual_color, size=marker_size),
+  		mode='markers',
+  		xhoverformat='%d/%m/%Y'
+		))
+		
 	layout = dict(
       	showlegend=False,
       	width=figsize[0],
@@ -78,5 +98,5 @@ def plot_df(df, ylabel='Volume (hm³)'):
       	),
   	)
     
-	fig = go.Figure(data=data, layout=layout)
+	fig = go.Figure(data=data, layout=None)
 	return fig
