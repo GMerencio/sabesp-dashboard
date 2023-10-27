@@ -2,7 +2,7 @@
 
 Projeto parte de um TCC em Ciência de Dados da Univesp que visa aumentar a acessibilidade dos dados de sistemas produtores fornecios pela SABESP. Este repositório foca na visualização dos dados para o público geral. O [segundo repositório](https://github.com/GMerencio/sabesp-api) foca na construção de uma API para desenvolvedores e disponibilização dos dados em formatos acessíveis.
 
-[A aplicação pode ser acessada aqui](https://previsao-cantareira.streamlit.app/).
+[A aplicação pode ser acessada aqui](https://sabesp-dashboard.streamlit.app/).
 
 ## Tecnologias
 
