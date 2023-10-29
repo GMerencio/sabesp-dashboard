@@ -18,6 +18,7 @@ Os principais arquivos e diretórios são:
 
 * `streamlit-app.py`: Arquivo de entrada e página principal da aplicação Streamlit responsável pela interface de visualização.
 * `plotting_utils.py`: Funções de auxílio para as visualizações de dados.
+* `dashboard.py`: Arquivo contendo as funções básicas usada na maioria das páginas, incluindo os gráficos e filtros.
 * `pages`: Diretório contendo as demais páginas da aplicação Streamlit, cada uma em um arquivo.
 
 ## Setup 
